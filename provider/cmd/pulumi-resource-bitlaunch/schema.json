@@ -8,7 +8,7 @@
     ],
     "homepage": "https://www.pulumi.com",
     "license": "Apache-2.0",
-    "attribution": "This Pulumi package is based on the [`bitlaunch` Terraform Provider](https://github.com/terraform-providers/terraform-provider-bitlaunch).",
+    "attribution": "This Pulumi package is based on the [`bitlaunch` Terraform Provider](https://github.com/pathtofile/terraform-provider-bitlaunch).",
     "repository": "https://github.com/webwarrior-ws/pulumi-bitlaunch",
     "publisher": "webwarrior-ws",
     "meta": {
@@ -28,7 +28,7 @@
         },
         "nodejs": {
             "packageDescription": "A Pulumi package for creating and managing bitlaunch cloud resources.",
-            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/terraform-providers/terraform-provider-bitlaunch)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-bitlaunch` repo](https://github.com/webwarrior-ws/pulumi-bitlaunch/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-bitlaunch` repo](https://github.com/terraform-providers/terraform-provider-bitlaunch/issues).",
+            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/pathtofile/terraform-provider-bitlaunch)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-bitlaunch` repo](https://github.com/webwarrior-ws/pulumi-bitlaunch/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-bitlaunch` repo](https://github.com/pathtofile/terraform-provider-bitlaunch/issues).",
             "dependencies": {
                 "@pulumi/pulumi": "^3.0.0"
             },
@@ -43,35 +43,348 @@
             "requires": {
                 "pulumi": "\u003e=3.0.0,\u003c4.0.0"
             },
-            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/terraform-providers/terraform-provider-bitlaunch)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-bitlaunch` repo](https://github.com/webwarrior-ws/pulumi-bitlaunch/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-bitlaunch` repo](https://github.com/terraform-providers/terraform-provider-bitlaunch/issues).",
+            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/pathtofile/terraform-provider-bitlaunch)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-bitlaunch` repo](https://github.com/webwarrior-ws/pulumi-bitlaunch/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-bitlaunch` repo](https://github.com/pathtofile/terraform-provider-bitlaunch/issues).",
             "compatibility": "tfbridge20",
             "pyproject": {}
         }
     },
-    "config": {},
+    "config": {
+        "variables": {
+            "token": {
+                "type": "string",
+                "description": "API Token\n",
+                "secret": true
+            }
+        },
+        "defaults": [
+            "token"
+        ]
+    },
+    "types": {
+        "bitlaunch:index/getSizeDisk:getSizeDisk": {
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "description": "The amount of disks.\n"
+                },
+                "size": {
+                    "type": "string",
+                    "description": "The size of the disk(s).\n"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of storage disk (SSD/HDD).\n"
+                },
+                "unit": {
+                    "type": "string",
+                    "description": "The unit of measurement for the disk size.\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "count",
+                "size",
+                "type",
+                "unit"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredInputs": []
+                }
+            }
+        }
+    },
     "provider": {
-        "description": "The provider type for the bitlaunch package. By default, resources use package-wide configuration\nsettings, however an explicit `Provider` instance may be created and passed during resource\nconstruction to achieve fine-grained programmatic control over provider settings. See the\n[documentation](https://www.pulumi.com/docs/reference/programming-model/#providers) for more information.\n"
+        "description": "The provider type for the bitlaunch package. By default, resources use package-wide configuration\nsettings, however an explicit `Provider` instance may be created and passed during resource\nconstruction to achieve fine-grained programmatic control over provider settings. See the\n[documentation](https://www.pulumi.com/docs/reference/programming-model/#providers) for more information.\n",
+        "properties": {
+            "token": {
+                "type": "string",
+                "description": "API Token\n",
+                "secret": true
+            }
+        },
+        "required": [
+            "token"
+        ],
+        "inputProperties": {
+            "token": {
+                "type": "string",
+                "description": "API Token\n",
+                "secret": true
+            }
+        },
+        "requiredInputs": [
+            "token"
+        ]
     },
     "resources": {
-        "bitlaunch:index/resource:Resource": {
+        "bitlaunch:index/server:Server": {
+            "description": "Virtual Machine Resource. Matches https://developers.bitlaunch.io/reference/server-object\n\n",
             "properties": {
-                "sampleAttribute": {
+                "created": {
                     "type": "string",
-                    "description": "Sample attribute.\n"
+                    "description": "The creation date of the server.\n"
+                },
+                "host": {
+                    "type": "string",
+                    "description": "The host for the server to reside on.\n"
+                },
+                "imageDescription": {
+                    "type": "string",
+                    "description": "The description of the image installed on the server.\n"
+                },
+                "imageId": {
+                    "type": "string",
+                    "description": "The image ID to use on the server.\n"
+                },
+                "initscript": {
+                    "type": "string",
+                    "description": "A script to run on first boot of the server. Only hosts with initScript enabled can use this feature.\n"
+                },
+                "ipv4": {
+                    "type": "string",
+                    "description": "The name of the key.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the server.\n"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The root user password to set on the server. Must be used if no SSH keys designated.\n"
+                },
+                "rate": {
+                    "type": "integer",
+                    "description": "The hourly rate of the server that will be deducted from your account balance every hour.\n"
+                },
+                "regionId": {
+                    "type": "string",
+                    "description": "The region ID of the location that the server will reside at.\n"
+                },
+                "sizeId": {
+                    "type": "string",
+                    "description": "The size ID of the server to be provisioned to.\n"
+                },
+                "sshKeys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An array of SSH key IDs to place on the server for authentication. Must be used if no password is designated of if the selected image does not support passwords.\n"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The name of the key.\n"
+                },
+                "waitForIp": {
+                    "type": "boolean",
+                    "description": "Wait to get IP Address\n"
                 }
             },
+            "required": [
+                "created",
+                "host",
+                "imageDescription",
+                "imageId",
+                "ipv4",
+                "name",
+                "rate",
+                "regionId",
+                "sizeId",
+                "status"
+            ],
             "inputProperties": {
-                "sampleAttribute": {
+                "host": {
                     "type": "string",
-                    "description": "Sample attribute.\n"
+                    "description": "The host for the server to reside on.\n",
+                    "willReplaceOnChanges": true
+                },
+                "imageId": {
+                    "type": "string",
+                    "description": "The image ID to use on the server.\n",
+                    "willReplaceOnChanges": true
+                },
+                "initscript": {
+                    "type": "string",
+                    "description": "A script to run on first boot of the server. Only hosts with initScript enabled can use this feature.\n",
+                    "willReplaceOnChanges": true
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the server.\n",
+                    "willReplaceOnChanges": true
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The root user password to set on the server. Must be used if no SSH keys designated.\n",
+                    "willReplaceOnChanges": true
+                },
+                "regionId": {
+                    "type": "string",
+                    "description": "The region ID of the location that the server will reside at.\n",
+                    "willReplaceOnChanges": true
+                },
+                "sizeId": {
+                    "type": "string",
+                    "description": "The size ID of the server to be provisioned to.\n",
+                    "willReplaceOnChanges": true
+                },
+                "sshKeys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An array of SSH key IDs to place on the server for authentication. Must be used if no password is designated of if the selected image does not support passwords.\n",
+                    "willReplaceOnChanges": true
+                },
+                "waitForIp": {
+                    "type": "boolean",
+                    "description": "Wait to get IP Address\n",
+                    "willReplaceOnChanges": true
                 }
             },
+            "requiredInputs": [
+                "host",
+                "imageId",
+                "regionId",
+                "sizeId"
+            ],
             "stateInputs": {
-                "description": "Input properties used for looking up and filtering Resource resources.\n",
+                "description": "Input properties used for looking up and filtering Server resources.\n",
                 "properties": {
-                    "sampleAttribute": {
+                    "created": {
                         "type": "string",
-                        "description": "Sample attribute.\n"
+                        "description": "The creation date of the server.\n"
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "The host for the server to reside on.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "imageDescription": {
+                        "type": "string",
+                        "description": "The description of the image installed on the server.\n"
+                    },
+                    "imageId": {
+                        "type": "string",
+                        "description": "The image ID to use on the server.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "initscript": {
+                        "type": "string",
+                        "description": "A script to run on first boot of the server. Only hosts with initScript enabled can use this feature.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "ipv4": {
+                        "type": "string",
+                        "description": "The name of the key.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the server.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "The root user password to set on the server. Must be used if no SSH keys designated.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "rate": {
+                        "type": "integer",
+                        "description": "The hourly rate of the server that will be deducted from your account balance every hour.\n"
+                    },
+                    "regionId": {
+                        "type": "string",
+                        "description": "The region ID of the location that the server will reside at.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "sizeId": {
+                        "type": "string",
+                        "description": "The size ID of the server to be provisioned to.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "sshKeys": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "An array of SSH key IDs to place on the server for authentication. Must be used if no password is designated of if the selected image does not support passwords.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The name of the key.\n"
+                    },
+                    "waitForIp": {
+                        "type": "boolean",
+                        "description": "Wait to get IP Address\n",
+                        "willReplaceOnChanges": true
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "bitlaunch:index/sshkey:Sshkey": {
+            "description": "SSH Key resouce. Matches https://developers.bitlaunch.io/reference/ssh-key-object-1\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as bitlaunch from \"@pulumi/bitlaunch\";\n\nconst config = new pulumi.Config();\nconst token = config.requireObject(\"token\");\nconst sshPubkey = config.requireObject(\"sshPubkey\");\nconst tfSshkey = new bitlaunch.Sshkey(\"tfSshkey\", {content: sshPubkey});\n```\n```python\nimport pulumi\nimport pulumi_bitlaunch as bitlaunch\n\nconfig = pulumi.Config()\ntoken = config.require_object(\"token\")\nssh_pubkey = config.require_object(\"sshPubkey\")\ntf_sshkey = bitlaunch.Sshkey(\"tfSshkey\", content=ssh_pubkey)\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Bitlaunch = Pulumi.Bitlaunch;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var config = new Config();\n    var token = config.RequireObject\u003cdynamic\u003e(\"token\");\n    var sshPubkey = config.RequireObject\u003cdynamic\u003e(\"sshPubkey\");\n    var tfSshkey = new Bitlaunch.Sshkey(\"tfSshkey\", new()\n    {\n        Content = sshPubkey,\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config\"\n\t\"github.com/webwarrior-ws/pulumi-bitlaunch/sdk/go/bitlaunch\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tcfg := config.New(ctx, \"\")\n\t\ttoken := cfg.RequireObject(\"token\")\n\t\tsshPubkey := cfg.RequireObject(\"sshPubkey\")\n\t\t_, err := bitlaunch.NewSshkey(ctx, \"tfSshkey\", \u0026bitlaunch.SshkeyArgs{\n\t\t\tContent: pulumi.Any(sshPubkey),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.bitlaunch.Sshkey;\nimport com.pulumi.bitlaunch.SshkeyArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        final var config = ctx.config();\n        final var token = config.get(\"token\");\n        final var sshPubkey = config.get(\"sshPubkey\");\n        var tfSshkey = new Sshkey(\"tfSshkey\", SshkeyArgs.builder()        \n            .content(sshPubkey)\n            .build());\n\n    }\n}\n```\n```yaml\nconfiguration:\n  token:\n    type: dynamic\n  sshPubkey:\n    type: dynamic\nresources:\n  tfSshkey:\n    type: bitlaunch:Sshkey\n    properties:\n      content: ${sshPubkey}\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "The public portion of the SSH key.\n"
+                },
+                "created": {
+                    "type": "string",
+                    "description": "The creation date of the key.\n"
+                },
+                "fingerprint": {
+                    "type": "string",
+                    "description": "The name of the key.\n"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the key.\n"
+                }
+            },
+            "required": [
+                "content",
+                "created",
+                "fingerprint",
+                "name"
+            ],
+            "inputProperties": {
+                "content": {
+                    "type": "string",
+                    "description": "The public portion of the SSH key.\n",
+                    "willReplaceOnChanges": true
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the key.\n",
+                    "willReplaceOnChanges": true
+                }
+            },
+            "requiredInputs": [
+                "content"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Sshkey resources.\n",
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "description": "The public portion of the SSH key.\n",
+                        "willReplaceOnChanges": true
+                    },
+                    "created": {
+                        "type": "string",
+                        "description": "The creation date of the key.\n"
+                    },
+                    "fingerprint": {
+                        "type": "string",
+                        "description": "The name of the key.\n"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the key.\n",
+                        "willReplaceOnChanges": true
                     }
                 },
                 "type": "object"
@@ -79,33 +392,239 @@
         }
     },
     "functions": {
-        "bitlaunch:index/getDataSource:getDataSource": {
+        "bitlaunch:index/getImage:getImage": {
+            "description": "Holds details on Images and apps available when configuring a server. Matches https://developers.bitlaunch.io/reference/host-image-object\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as bitlaunch from \"@pulumi/bitlaunch\";\n\nconst config = new pulumi.Config();\nconst token = config.requireObject(\"token\");\nconst example = bitlaunch.getImage({\n    host: \"DigitalOcean\",\n    distroName: \"Ubuntu\",\n});\n```\n```python\nimport pulumi\nimport pulumi_bitlaunch as bitlaunch\n\nconfig = pulumi.Config()\ntoken = config.require_object(\"token\")\nexample = bitlaunch.get_image(host=\"DigitalOcean\",\n    distro_name=\"Ubuntu\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Bitlaunch = Pulumi.Bitlaunch;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var config = new Config();\n    var token = config.RequireObject\u003cdynamic\u003e(\"token\");\n    var example = Bitlaunch.GetImage.Invoke(new()\n    {\n        Host = \"DigitalOcean\",\n        DistroName = \"Ubuntu\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config\"\n\t\"github.com/webwarrior-ws/pulumi-bitlaunch/sdk/go/bitlaunch\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tcfg := config.New(ctx, \"\")\n\t\ttoken := cfg.RequireObject(\"token\")\n\t\t_, err := bitlaunch.GetImage(ctx, \u0026bitlaunch.GetImageArgs{\n\t\t\tHost:       \"DigitalOcean\",\n\t\t\tDistroName: pulumi.StringRef(\"Ubuntu\"),\n\t\t}, nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.bitlaunch.BitlaunchFunctions;\nimport com.pulumi.bitlaunch.inputs.GetImageArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        final var config = ctx.config();\n        final var token = config.get(\"token\");\n        final var example = BitlaunchFunctions.getImage(GetImageArgs.builder()\n            .host(\"DigitalOcean\")\n            .distroName(\"Ubuntu\")\n            .build());\n\n    }\n}\n```\n```yaml\nconfiguration:\n  token:\n    type: dynamic\nvariables:\n  example:\n    fn::invoke:\n      Function: bitlaunch:getImage\n      Arguments:\n        host: DigitalOcean\n        distroName: Ubuntu\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
             "inputs": {
-                "description": "A collection of arguments for invoking getDataSource.\n",
+                "description": "A collection of arguments for invoking getImage.\n",
                 "properties": {
-                    "sampleAttribute": {
-                        "type": "string"
+                    "distroName": {
+                        "type": "string",
+                        "description": "The name of the Linux Distibution or one-click app.\n"
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "Host Provider (DigitalOcean, Vultr, etc.)\n"
+                    },
+                    "versionName": {
+                        "type": "string",
+                        "description": "The Specific Image Version\n"
                     }
                 },
                 "type": "object",
                 "required": [
-                    "sampleAttribute"
+                    "host"
                 ]
             },
             "outputs": {
-                "description": "A collection of values returned by getDataSource.\n",
+                "description": "A collection of values returned by getImage.\n",
                 "properties": {
+                    "distroName": {
+                        "type": "string",
+                        "description": "The name of the Linux Distibution or one-click app.\n"
+                    },
+                    "extraCostPerMonth": {
+                        "type": "integer",
+                        "description": "Extra monthly cost.\n"
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "Host Provider (DigitalOcean, Vultr, etc.)\n"
+                    },
                     "id": {
                         "type": "string",
                         "description": "The provider-assigned unique ID for this managed resource.\n"
                     },
-                    "sampleAttribute": {
-                        "type": "string"
+                    "isWindows": {
+                        "type": "boolean",
+                        "description": "Flag to determine if the image is Windows-based.\n"
+                    },
+                    "minDiskSize": {
+                        "type": "integer",
+                        "description": "The minimum disk size available in GB.\n"
+                    },
+                    "passwordUnsupported": {
+                        "type": "boolean",
+                        "description": "If setting a password is supported.\n"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the image: image or app.\n"
+                    },
+                    "unavailableRegions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "A list of unavailable subregion IDs.\n"
+                    },
+                    "versionName": {
+                        "type": "string",
+                        "description": "The Specific Image Version\n"
                     }
                 },
                 "type": "object",
                 "required": [
-                    "sampleAttribute",
+                    "extraCostPerMonth",
+                    "host",
+                    "isWindows",
+                    "minDiskSize",
+                    "passwordUnsupported",
+                    "type",
+                    "unavailableRegions",
+                    "id"
+                ]
+            }
+        },
+        "bitlaunch:index/getRegion:getRegion": {
+            "description": "Holds available region configurations for a server. Matches https://developers.bitlaunch.io/reference/host-region-object\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as bitlaunch from \"@pulumi/bitlaunch\";\n\nconst config = new pulumi.Config();\nconst token = config.requireObject(\"token\");\nconst example = bitlaunch.getRegion({\n    host: \"DigitalOcean\",\n    regionName: \"New York\",\n    slug: \"nyc1\",\n});\n```\n```python\nimport pulumi\nimport pulumi_bitlaunch as bitlaunch\n\nconfig = pulumi.Config()\ntoken = config.require_object(\"token\")\nexample = bitlaunch.get_region(host=\"DigitalOcean\",\n    region_name=\"New York\",\n    slug=\"nyc1\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Bitlaunch = Pulumi.Bitlaunch;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var config = new Config();\n    var token = config.RequireObject\u003cdynamic\u003e(\"token\");\n    var example = Bitlaunch.GetRegion.Invoke(new()\n    {\n        Host = \"DigitalOcean\",\n        RegionName = \"New York\",\n        Slug = \"nyc1\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config\"\n\t\"github.com/webwarrior-ws/pulumi-bitlaunch/sdk/go/bitlaunch\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tcfg := config.New(ctx, \"\")\n\t\ttoken := cfg.RequireObject(\"token\")\n\t\t_, err := bitlaunch.GetRegion(ctx, \u0026bitlaunch.GetRegionArgs{\n\t\t\tHost:       \"DigitalOcean\",\n\t\t\tRegionName: pulumi.StringRef(\"New York\"),\n\t\t\tSlug:       pulumi.StringRef(\"nyc1\"),\n\t\t}, nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.bitlaunch.BitlaunchFunctions;\nimport com.pulumi.bitlaunch.inputs.GetRegionArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        final var config = ctx.config();\n        final var token = config.get(\"token\");\n        final var example = BitlaunchFunctions.getRegion(GetRegionArgs.builder()\n            .host(\"DigitalOcean\")\n            .regionName(\"New York\")\n            .slug(\"nyc1\")\n            .build());\n\n    }\n}\n```\n```yaml\nconfiguration:\n  token:\n    type: dynamic\nvariables:\n  example:\n    fn::invoke:\n      Function: bitlaunch:getRegion\n      Arguments:\n        host: DigitalOcean\n        regionName: New York\n        slug: nyc1\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "inputs": {
+                "description": "A collection of arguments for invoking getRegion.\n",
+                "properties": {
+                    "host": {
+                        "type": "string",
+                        "description": "Host Provider (DigitalOcean, Vultr, etc.)\n"
+                    },
+                    "regionName": {
+                        "type": "string",
+                        "description": "The name of the Region.\n"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "description": "The Specific Subregion slug.\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "host"
+                ]
+            },
+            "outputs": {
+                "description": "A collection of values returned by getRegion.\n",
+                "properties": {
+                    "host": {
+                        "type": "string",
+                        "description": "Host Provider (DigitalOcean, Vultr, etc.)\n"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The provider-assigned unique ID for this managed resource.\n"
+                    },
+                    "iso": {
+                        "type": "string",
+                        "description": "The ISO code for the region.\n"
+                    },
+                    "regionName": {
+                        "type": "string",
+                        "description": "The name of the Region.\n"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "description": "The Specific Subregion slug.\n"
+                    },
+                    "unavailableSizes": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "A list of the unavailable sizes for this subregion.\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "host",
+                    "iso",
+                    "unavailableSizes",
+                    "id"
+                ]
+            }
+        },
+        "bitlaunch:index/getSize:getSize": {
+            "description": "Holds details on available size configurations for a server. Matches https://developers.bitlaunch.io/reference/host-size-object\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as bitlaunch from \"@pulumi/bitlaunch\";\n\nconst config = new pulumi.Config();\nconst token = config.requireObject(\"token\");\nconst example = bitlaunch.getSize({\n    host: \"DigitalOcean\",\n    cpuCount: 2,\n    memoryMb: 2048,\n});\n```\n```python\nimport pulumi\nimport pulumi_bitlaunch as bitlaunch\n\nconfig = pulumi.Config()\ntoken = config.require_object(\"token\")\nexample = bitlaunch.get_size(host=\"DigitalOcean\",\n    cpu_count=2,\n    memory_mb=2048)\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Bitlaunch = Pulumi.Bitlaunch;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var config = new Config();\n    var token = config.RequireObject\u003cdynamic\u003e(\"token\");\n    var example = Bitlaunch.GetSize.Invoke(new()\n    {\n        Host = \"DigitalOcean\",\n        CpuCount = 2,\n        MemoryMb = 2048,\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config\"\n\t\"github.com/webwarrior-ws/pulumi-bitlaunch/sdk/go/bitlaunch\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\tcfg := config.New(ctx, \"\")\n\t\ttoken := cfg.RequireObject(\"token\")\n\t\t_, err := bitlaunch.GetSize(ctx, \u0026bitlaunch.GetSizeArgs{\n\t\t\tHost:     \"DigitalOcean\",\n\t\t\tCpuCount: pulumi.IntRef(2),\n\t\t\tMemoryMb: pulumi.IntRef(2048),\n\t\t}, nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.bitlaunch.BitlaunchFunctions;\nimport com.pulumi.bitlaunch.inputs.GetSizeArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        final var config = ctx.config();\n        final var token = config.get(\"token\");\n        final var example = BitlaunchFunctions.getSize(GetSizeArgs.builder()\n            .host(\"DigitalOcean\")\n            .cpuCount(2)\n            .memoryMb(2048)\n            .build());\n\n    }\n}\n```\n```yaml\nconfiguration:\n  token:\n    type: dynamic\nvariables:\n  example:\n    fn::invoke:\n      Function: bitlaunch:getSize\n      Arguments:\n        host: DigitalOcean\n        cpuCount: 2\n        memoryMb: 2048\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "inputs": {
+                "description": "A collection of arguments for invoking getSize.\n",
+                "properties": {
+                    "cpuCount": {
+                        "type": "integer",
+                        "description": "The amount of vCPU's included.\n"
+                    },
+                    "diskGb": {
+                        "type": "integer",
+                        "description": "The amount of disk space included.\n"
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "Host Provider (DigitalOcean, Vultr, etc.)\n"
+                    },
+                    "memoryMb": {
+                        "type": "integer",
+                        "description": "The amount of memory (RAM) included.\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "host"
+                ]
+            },
+            "outputs": {
+                "description": "A collection of values returned by getSize.\n",
+                "properties": {
+                    "bandwidthGb": {
+                        "type": "integer",
+                        "description": "The available monthly bandwidth in GB.\n"
+                    },
+                    "costPerHour": {
+                        "type": "integer",
+                        "description": "The amount of balance deducted per hour.\n"
+                    },
+                    "costPerMonth": {
+                        "type": "integer",
+                        "description": "The amount in USD charged per month.\n"
+                    },
+                    "cpuCount": {
+                        "type": "integer",
+                        "description": "The amount of vCPU's included.\n"
+                    },
+                    "diskGb": {
+                        "type": "integer",
+                        "description": "The amount of disk space included.\n"
+                    },
+                    "disks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/types/bitlaunch:index/getSizeDisk:getSizeDisk"
+                        },
+                        "description": "Details on disks included with the size.\n"
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "Host Provider (DigitalOcean, Vultr, etc.)\n"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The provider-assigned unique ID for this managed resource.\n"
+                    },
+                    "memoryMb": {
+                        "type": "integer",
+                        "description": "The amount of memory (RAM) included.\n"
+                    },
+                    "planType": {
+                        "type": "string",
+                        "description": "Some hosts offer a different plan type for different usage. You should refer to the host documentation for more information.\n"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "description": "A human readable string.\n"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "bandwidthGb",
+                    "costPerHour",
+                    "costPerMonth",
+                    "disks",
+                    "host",
+                    "planType",
+                    "slug",
                     "id"
                 ]
             }

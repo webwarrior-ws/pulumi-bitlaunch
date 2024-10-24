@@ -1,1 +1,44 @@
-{}
+{
+    "auto-aliasing": {
+        "resources": {
+            "bitlaunch_server": {
+                "current": "bitlaunch:index/server:Server",
+                "fields": {
+                    "ssh_keys": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "bitlaunch_sshkey": {
+                "current": "bitlaunch:index/sshkey:Sshkey"
+            }
+        },
+        "datasources": {
+            "bitlaunch_image": {
+                "current": "bitlaunch:index/getImage:getImage",
+                "fields": {
+                    "unavailable_regions": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "bitlaunch_region": {
+                "current": "bitlaunch:index/getRegion:getRegion",
+                "fields": {
+                    "unavailable_sizes": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "bitlaunch_size": {
+                "current": "bitlaunch:index/getSize:getSize",
+                "fields": {
+                    "disks": {
+                        "maxItemsOne": false
+                    }
+                }
+            }
+        }
+    },
+    "auto-settings": {}
+}
