@@ -55,9 +55,9 @@ From the templated repository:
    This will do the following:
    - rename folders in `provider/cmd` to `pulumi-resource-foo` and `pulumi-tfgen-foo`
    - replace dependencies in `provider/go.mod` to reflect your repository name
-   - find and replace all instances of the boilerplate `xyz` with the `NAME` of your provider.
-   - find and replace all instances of the boilerplate `abc` with the `ORG` of your provider.
-   - replace all instances of the `github.com/pulumi/pulumi-xyz` repository with the `REPOSITORY` location
+   - find and replace all instances of the boilerplate `bitlaunch` with the `NAME` of your provider.
+   - find and replace all instances of the boilerplate `webwarrior-ws` with the `ORG` of your provider.
+   - replace all instances of the `github.com/webwarrior-ws/pulumi-bitlaunch` repository with the `REPOSITORY` location
 
    Note for third-party providers:
    - If you intend to publish on the Pulumi registry you will want to update the `DisplayName`, `Publisher`, and `Homepage` values in `provider/resources.go` to use your desired casing.
@@ -361,7 +361,7 @@ before:
   hooks:
   - make tfgen
 builds:
-- binary: pulumi-resource-xyz
+- binary: pulumi-resource-bitlaunch
   dir: provider
   goarch:
   - amd64
@@ -372,8 +372,8 @@ builds:
   - linux
   ignore: []
   ldflags:
-  - -X github.com/pulumi/pulumi-xyz/provider/pkg/version.Version={{.Tag}}
-  main: ./cmd/pulumi-resource-xyz/
+  - -X github.com/webwarrior-ws/pulumi-bitlaunch/provider/pkg/version.Version={{.Tag}}
+  main: ./cmd/pulumi-resource-bitlaunch/
   sort: asc
   use: git
 release:
@@ -398,18 +398,18 @@ dist
 ├── artifacts.json
 ├── config.yaml
 ├── metadata.json
-├── pulumi-xyz_darwin_amd64_v1
-│   └── pulumi-resource-xyz
-├── pulumi-xyz_darwin_arm64
-│   └── pulumi-resource-xyz
-├── pulumi-xyz_linux_amd64_v1
-│   └── pulumi-resource-xyz
-├── pulumi-xyz_linux_arm64
-│   └── pulumi-resource-xyz
-├── pulumi-xyz_windows_amd64_v1
-│   └── pulumi-resource-xyz.exe
-└── pulumi-xyz_windows_arm64
-    └── pulumi-resource-xyz.exe
+├── pulumi-bitlaunch_darwin_amd64_v1
+│   └── pulumi-resource-bitlaunch
+├── pulumi-bitlaunch_darwin_arm64
+│   └── pulumi-resource-bitlaunch
+├── pulumi-bitlaunch_linux_amd64_v1
+│   └── pulumi-resource-bitlaunch
+├── pulumi-bitlaunch_linux_arm64
+│   └── pulumi-resource-bitlaunch
+├── pulumi-bitlaunch_windows_amd64_v1
+│   └── pulumi-resource-bitlaunch.exe
+└── pulumi-bitlaunch_windows_arm64
+    └── pulumi-resource-bitlaunch.exe
 ```
 
 Any of the provider binaries can be used to target the correct machine architecture
