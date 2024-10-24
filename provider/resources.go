@@ -135,7 +135,7 @@ func Provider() tfbridge.ProviderInfo {
 		Repository: "https://github.com/webwarrior-ws/pulumi-bitlaunch",
 		// The GitHub Org for the provider - defaults to `terraform-providers`. Note that this should
 		// match the TF provider module's require directive, not any replace directives.
-		GitHubOrg:    "",
+		GitHubOrg:    "pathtofile",
 		MetadataInfo: tfbridge.NewProviderMetadata(metadata),
 		Config:       map[string]*tfbridge.SchemaInfo{
 			// Add any required configuration here, or remove the example below if
