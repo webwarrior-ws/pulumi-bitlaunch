@@ -24,8 +24,7 @@ import (
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge/tokens"
 	shimv2 "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim/sdk-v2"
 
-	// Replace this provider with the provider you are bridging.
-	bitlaunch "github.com/iwahbe/terraform-provider-bitlaunch/provider"
+	bitlaunch "github.com/pathtofile/terraform-provider-bitlaunch/tf_bitlaunch"
 
 	"github.com/webwarrior-ws/pulumi-bitlaunch/provider/pkg/version"
 )
