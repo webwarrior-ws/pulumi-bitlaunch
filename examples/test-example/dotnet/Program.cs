@@ -10,44 +10,58 @@ return await Deployment.RunAsync(() =>
 
     if(String.IsNullOrEmpty(token))
         throw new Exception("BITLAUNCH_TOKEN env. var not present");
+
+    var password = Environment.GetEnvironmentVariable("SERVER_PASSWORD");
+
+    if(String.IsNullOrEmpty(password))
+        throw new Exception("SERVER_PASSWORD env. var not present");
     
-    Pulumi.Bitlaunch.Config.Token = token;
-    
+    // If you set token in code, you need to use custom provider, otherwise will get an error:
+    // Provider is missing a required configuration key, try `pulumi config set bitlaunch:token`: API Token
     var providerArgs = new ProviderArgs
     {
         Token = token
     };
     var provider = new Provider("BitlaunchProvider", providerArgs);
+    var invokeOptions = new InvokeOptions { Provider = provider };
+
+    var hostName = "BitLaunch";
 
     // Add your resources here
     // e.g. var resource = new Resource("name", new ResourceArgs { });        
     var region = Pulumi.Bitlaunch.GetRegion.Invoke(new()
         {
-            Host = "BitLaunch",
+            Host = hostName,
             RegionName = "Bucharest",
-        });
+        },
+        invokeOptions);
 
     var image = Pulumi.Bitlaunch.GetImage.Invoke(new()
         {
-            Host = "DigitalOcean",
+            Host = hostName,
             DistroName = "Ubuntu",
-            VersionName = "24.04 (LTS) x64",
-        });
+            VersionName = "Ubuntu 24.04 LTS",
+        },
+        invokeOptions);
 
     var size = Pulumi.Bitlaunch.GetSize.Invoke(new ()
         {
             CpuCount = 1,
-            Host = "BitLaunch",
+            Host = hostName,
             MemoryMb = 1024,
-        });
+        },
+        invokeOptions);
 
-    var serverArgs = new ServerArgs();
-    serverArgs.Host = "BitLaunch";
-    serverArgs.ImageId = image.Apply(img => img.Id);
-    serverArgs.RegionId = region.Apply(region => region.Id);
-    serverArgs.SizeId = size.Apply(size => size.Id);
-    serverArgs.WaitForIp = true;
-    
+    var serverArgs = new ServerArgs
+    {
+        Host = hostName,
+        ImageId = image.Apply(img => img.Id),
+        RegionId = region.Apply(region => region.Id),
+        SizeId = size.Apply(size => size.Id),
+        WaitForIp = true,
+        Password = password,
+    };
+
     var server = new Pulumi.Bitlaunch.Server(
             "testServer", 
             serverArgs, 
