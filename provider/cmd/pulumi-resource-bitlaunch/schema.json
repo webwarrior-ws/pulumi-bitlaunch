@@ -17,7 +17,7 @@
     "language": {
         "csharp": {
             "packageReferences": {
-                "Pulumi": "3.*"
+                "Pulumi": "3.55.1"
             },
             "compatibility": "tfbridge20"
         },
