@@ -1,4 +1,4 @@
-name: Build binaries
+name: Build and release binaries
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  bulid:
+  bulidAndRelease:
     name: Build and release binaries
     runs-on: ubuntu-24.04
     steps:
@@ -18,3 +18,24 @@ jobs:
         fetch-tags: true
     - name: Build
       run: sudo ./build_binaries.sh
+    - name: Create Release
+      id: create_release
+      if: github.ref_type == 'tag'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Release
+      if: github.ref_type == 'tag'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./pulumi-bitlaunch.zip
+        asset_name: pulumi-bitlaunch.zip
+        asset_content_type: application/zip
