@@ -23,3 +23,5 @@ cp bin/pulumi-resource-bitlaunch ./output/bin
 cp --recursive sdk/dotnet ./output/sdk/dotnet
 
 ls -l ./output
+
+zip --recurse-paths pulumi-bitlaunch.zip ./output
