@@ -20,6 +20,8 @@ chmod --recursive 0777 sdk/dotnet
 
 mkdir output && mkdir output/bin && mkdir --parents output/sdk/dotnet
 cp bin/pulumi-resource-bitlaunch ./output/bin
-cp --recursive sdk/dotnet ./output/sdk/dotnet
+cp --recursive sdk/dotnet ./output/sdk
 
 ls -l ./output
+
+zip --recurse-paths pulumi-bitlaunch.zip ./output/bin ./output/sdk
